@@ -1,0 +1,230 @@
+/* --- VARIABLES --- */
+:root {
+    --primary: #6B705C;
+    --secondary: #A5A58D;
+    --accent: #B79968; /* Dorado */
+    --bg: #FDFBF7;
+    --text: #3F4238;
+    --font-heading: 'Cormorant Garamond', serif;
+    --font-script: 'Great Vibes', cursive;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+/* --- TEXTURA DE PAPEL (RUIDO) --- */
+body::before {
+    content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9998;
+}
+
+/* --- GENERAL Y RESET --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-body); background-color: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.6; }
+h1, h2, h3 { font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 2px; line-height: 1.2; }
+p { font-size: 0.95rem; }
+.script { font-family: var(--font-script); color: var(--accent); text-transform: none; letter-spacing: 0; }
+
+/* --- COMPONENTES REUTILIZABLES --- */
+.btn {
+    padding: 12px 30px; background: var(--primary); color: white; text-transform: uppercase; 
+    letter-spacing: 2px; font-size: 0.75rem; border: none; cursor: pointer; transition: 0.3s;
+    display: inline-block; text-decoration: none; margin-top: 10px; border-radius: 2px;
+    font-weight: 500;
+}
+.btn:hover { background: var(--accent); transform: translateY(-2px); }
+
+.btn-calendar {
+    background: transparent; border: 1px solid white; margin-top: 20px;
+}
+.btn-calendar:hover { background: white; color: var(--primary); }
+
+/* --- PANTALLA DE BIENVENIDA --- */
+#welcome-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg); z-index: 9999;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    transition: opacity 0.8s ease, transform 0.8s ease; padding: 20px;
+}
+.welcome-content { text-align: center; width: 100%; max-width: 500px; }
+.pre-title { letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-size: 0.9rem; }
+.big-names { font-size: 4rem; margin-bottom: 30px; line-height: 1; } /* Ajustado line-height */
+.hidden { opacity: 0; pointer-events: none; transform: translateY(-100%); }
+
+/* --- MÚSICA --- */
+.music-control {
+    position: fixed; bottom: 20px; right: 20px; z-index: 1000;
+    width: 50px; height: 50px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--accent);
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.music-icon { color: var(--accent); font-size: 20px; }
+.spinning { animation: spin 4s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* --- HERO (PORTADA) --- */
+.hero {
+    height: 100vh; min-height: 600px; /* Evita que se corte en pantallas apaisadas */
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+    url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover; background-position: center; background-attachment: fixed;
+    display: flex; align-items: center; justify-content: center; text-align: center; color: white;
+    padding: 20px;
+}
+.hero-subtitle { letter-spacing: 3px; text-transform: uppercase; font-size: 0.9rem; }
+.hero-title { font-size: 6rem; margin: 10px 0; }
+.hero-date { margin-top: 20px; font-size: 1rem; letter-spacing: 2px; }
+
+/* --- FRASE --- */
+.quote-section { padding: 80px 20px; text-align: center; max-width: 700px; margin: 0 auto; }
+.quote-icon { color: var(--primary); font-size: 2rem; margin-bottom: 20px; }
+.quote-title { color: var(--accent); margin-bottom: 20px; font-size: 2rem; }
+
+/* --- CONTADOR --- */
+.countdown-section { background: var(--primary); color: white; padding: 60px 20px; text-align: center; }
+.countdown-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px; }
+.time-box {
+    width: 80px; height: 80px;
+    border: 1px solid rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.1);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    border-radius: 5px;
+}
+.time-val { font-family: var(--font-heading); font-size: 2.5rem; line-height: 1; font-weight: bold; }
+.time-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+
+/* --- ITINERARIO (TIMELINE) --- */
+.timeline-section { padding: 80px 20px; max-width: 900px; margin: 0 auto; position: relative; overflow: hidden; }
+.timeline-title { text-align: center; margin-bottom: 50px; color: var(--primary); font-size: 2.5rem; }
+
+/* Línea central por defecto (Desktop) */
+.timeline-line {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    width: 2px; height: 100%; background: var(--secondary); top: 0; z-index: 1;
+}
+
+.timeline-item {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 60px; position: relative; z-index: 2; width: 100%;
+}
+
+/* Contenido (Desktop) */
+.timeline-content { 
+    width: 45%; background: white; padding: 30px; 
+    border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); text-align: center; 
+}
+
+/* Punto (Desktop) */
+.timeline-dot {
+    width: 40px; height: 40px; background: var(--primary); border-radius: 50%;
+    display: flex; justify-content: center; align-items: center; color: white;
+    border: 4px solid var(--bg);
+    position: absolute; left: 50%; transform: translateX(-50%); /* Centrado en la línea */
+}
+
+.time-script { font-size: 1.8rem; margin: 5px 0; }
+
+/* Alternancia Izquierda/Derecha en Desktop */
+.timeline-item:nth-child(odd) { flex-direction: row-reverse; }
+.timeline-item:nth-child(odd) .timeline-content { text-align: center; }
+
+/* Botones Apps */
+.location-btn-group { display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.btn-app {
+    padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; text-decoration: none; color: white; display: flex; align-items: center; gap: 6px; transition: 0.3s;
+}
+.btn-waze { background-color: #33CCFF; }
+.btn-maps { background-color: #4285F4; }
+.btn-app:hover { opacity: 0.9; transform: translateY(-2px); }
+
+/* --- GALERÍA --- */
+.gallery-section { padding: 60px 20px; background: #f4f4f4; }
+.gallery-title { text-align: center; margin-bottom: 30px; font-size: 2rem; }
+.swiper { width: 100%; padding-top: 20px; padding-bottom: 50px; }
+.swiper-slide {
+    background-position: center; background-size: cover; width: 300px; height: 450px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2); border-radius: 10px;
+    background-color: #ddd; animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.swiper-slide img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+
+/* --- REGALOS --- */
+.gifts-section { padding: 80px 20px; text-align: center; }
+.gift-container { display: inline-block; cursor: pointer; margin-top: 20px; padding: 20px; }
+.gift-icon { font-size: 4rem; color: var(--accent); animation: rubberBand 2s infinite; }
+.gift-cta { margin-top: 15px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; color: var(--primary); }
+
+@keyframes rubberBand {
+    0% { transform: scale3d(1, 1, 1); } 30% { transform: scale3d(1.25, 0.75, 1); }
+    40% { transform: scale3d(0.75, 1.25, 1); } 50% { transform: scale3d(1.15, 0.85, 1); }
+    65% { transform: scale3d(0.95, 1.05, 1); } 75% { transform: scale3d(1.05, 0.95, 1); }
+    100% { transform: scale3d(1, 1, 1); }
+}
+
+/* --- RSVP --- */
+.rsvp-section { background: var(--primary); color: white; text-align: center; padding: 80px 20px; }
+.btn-whatsapp {
+    background: #25D366; color: white; padding: 15px 35px; border-radius: 50px; 
+    text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+    font-weight: bold; margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.btn-whatsapp:hover { transform: scale(1.05); }
+footer { background: #222; color: #777; text-align: center; padding: 30px 20px; font-size: 0.8rem; }
+
+/* =========================================
+   CORRECCIÓN DE RESPONSIVIDAD (MOVIL)
+   ========================================= */
+@media (max-width: 768px) {
+    
+    /* 1. HERO: Ajuste de textos gigantes */
+    .hero-title { font-size: 3.5rem; margin: 15px 0; }
+    .big-names { font-size: 3rem; }
+    .hero-subtitle, .pre-title { letter-spacing: 2px; font-size: 0.8rem; }
+
+    /* 2. CONTADOR: Cajas más pequeñas para que quepan */
+    .countdown-container { gap: 10px; }
+    .time-box { width: 70px; height: 70px; }
+    .time-val { font-size: 1.8rem; }
+    .time-label { font-size: 0.5rem; }
+
+    /* 3. TIMELINE: Transformación a lista vertical alineada a la izquierda */
+    .timeline-line { 
+        left: 30px; /* Línea pegada a la izquierda */
+        transform: none; 
+    }
+    
+    .timeline-item {
+        flex-direction: column !important; /* Forzar columna siempre */
+        align-items: flex-start; /* Todo alineado a la izquierda */
+        margin-left: 0;
+        padding-left: 60px; /* Espacio para la línea y el punto */
+    }
+    
+    .timeline-dot {
+        left: 30px; /* Punto sobre la línea */
+        top: 0; /* Alineado al inicio de la tarjeta */
+        transform: translateX(-50%);
+    }
+    
+    .timeline-content { 
+        width: 100%; /* Tarjeta ocupa todo el ancho disponible */
+        text-align: center; /* Texto interno centrado */
+        padding: 20px;
+    }
+
+    /* 4. GALERÍA: Diapositivas más angostas */
+    .swiper-slide { width: 260px; height: 380px; }
+
+    /* 5. ESPACIADOS GENERALES */
+    .quote-section, .timeline-section, .rsvp-section { padding: 60px 20px; }
+    h2 { font-size: 2rem; }
+}
+
+@media (max-width: 480px) {
+    /* Ajustes extra para celulares muy pequeños */
+    .hero-title { font-size: 3rem; }
+    .time-box { width: 65px; height: 65px; }
+    .timeline-content { padding: 15px; }
+}
